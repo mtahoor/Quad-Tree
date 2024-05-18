@@ -1,31 +1,31 @@
 import java.io.*;
+import java.util.Scanner;
 
 public class ImgQuadTreeFileCreator {
     public static void main(String[] args) {
-        // Create a BufferedReader to read input from the console
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        // Create a Scanner to read input from the console
+        Scanner scanner = new Scanner(System.in);
 
         try {
             // Prompt the user to enter the input image file name
             System.out.println("Enter the name of the input image file:");
-            String inputFile = reader.readLine().trim();
+            String inputFile = scanner.nextLine().trim();
 
             // Prompt the user to enter the output quadtree file name
             System.out.println("Enter the name of the output quadtree file:");
-            String outputFile = reader.readLine().trim();
+            String outputFile = scanner.nextLine().trim();
 
             // Read the uncompressed image file
-            try (BufferedReader inputFileReader = new BufferedReader(new FileReader(inputFile))) {
+            try (Scanner inputFileScanner = new Scanner(new File(inputFile))) {
                 // Create a 2D array to store the image data
                 int[][] image = new int[256][256];
                 // Populate the image array with intensity values from the input file
                 for (int row = 0; row < 256; row++) {
                     for (int col = 0; col < 256; col++) {
-                        String line = inputFileReader.readLine();
-                        if (line == null) {
+                        if (!inputFileScanner.hasNextLine()) {
                             throw new IOException("Unexpected end of file.");
                         }
-                        int intensity = Integer.parseInt(line.trim());
+                        int intensity = Integer.parseInt(inputFileScanner.nextLine().trim());
                         image[row][col] = intensity;
                     }
                 }
